@@ -1,0 +1,27 @@
+{
+  "name": "nanomap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "run-s test:*",
+    "test:deps": "dependency-check . && dependency-check . --extra --no-dev",
+    "test:node": "NODE_ENV=test node test/node.js | tap-format-spec",
+    "test:browser": "browserify test/browser/index.js | tape-run | tap-format-spec",
+    "test:lint": "standard",
+
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@tap-format/spec": "^0.2.0",
+    "dependency-check": "^2.6.0",
+    "npm-run-all": "^4.0.2",
+    "standard": "^10.0.0",
+    "tape": "^4.7.0",
+    "tape-run": "^3.0.0"
+  },
+  "author": "Bret Comnes",
+  "license": "MIT"
+}
