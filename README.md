@@ -3,7 +3,7 @@
 Functinally map data to stateful [nanocomponents][nc].
 
 ## API
-### `mapper = Mapper([opts], Component || { type: Component, ..., [default: Component]})
+### `mapper = new Mapper([opts], Component || { type: Component, ..., [default: Component]})`
 
 ```js
 var Nanomap = require('nanocomponent/map')
