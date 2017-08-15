@@ -24,6 +24,11 @@ array = {
 callback = function (opts) {
   return instance of component with a .render method
 }
+
+
+OR
+
+
 */
 
 Nanomap.prototype.map = function (array) {
