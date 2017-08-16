@@ -1,5 +1,7 @@
 # nanomap
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/bcomnes/nanomap.svg)](https://greenkeeper.io/)
+
 Functinally map data to stateful [nanocomponents][nc].
 
 ## API
