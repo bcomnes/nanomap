@@ -8,15 +8,15 @@
     "test:deps": "dependency-check . && dependency-check . --extra --no-dev",
     "test:node": "NODE_ENV=test node test/node.js | tap-format-spec",
     "test:browser": "browserify test/browser/index.js | tape-run | tap-format-spec",
-    "test:lint": "standard",
-
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:lint": "standard *.js",
+    "start": "bankai start example"
   },
   "devDependencies": {
     "@tap-format/spec": "^0.2.0",
+    "bankai": "^8.1.1",
+    "choo": "^6.0.0",
     "dependency-check": "^2.6.0",
+    "nanocomponent": "^6.1.0",
     "npm-run-all": "^4.0.2",
     "standard": "^10.0.0",
     "tape": "^4.7.0",

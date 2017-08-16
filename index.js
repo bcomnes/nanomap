@@ -1,55 +1,59 @@
+var assert = require('assert')
 var isArray = Array.isArray
 
 function Nanomap (opts, Callback) {
   if (!(this instanceof Nanomap)) return new Nanomap()
-  if (typeof opts === 'function') {
+  assert(arguments.length > 0 && arguments.length <= 2, 'Provide the correct number of arguments')
+  if (arguments.length < 2) {
     Callback = opts
     opts = {}
   }
-  opts = Object.assign({
-    new: true
-  }, opts)
-  this.new = opts.new // call Callback using new
-  this.cache = {}
-  this.Callback = Callback
-}
 
-/*
-array = {
-  id: id,
-  opts: options object to instance with,
-  arguments: value || array of values
-}
+  opts = Object.assign({}, opts)
 
-callback = function (opts) {
-  return instance of component with a .render method
-}
-
-
-OR
-
-
-*/
-
-Nanomap.prototype.map = function (array) {
-  var instance
-  var args
-  var Callback = this.Callback
-  var newCache = {}
-  var elements = new Array(array.length)
-  for (var i = 0; i < array.length; i++) {
-    args = isArray(array[i].arguments) ? array[i].arguments : [array[i].arguments]
-    if (this.cache[array.id]) {
-      instance = newCache[array.id] = this.cache[array.id]
-      elements.push(instance.render.apply(instance, args))
-    } else {
-      instance = this.new ? new Callback(array[i].opts) : Callback(array[i].opts)
-      newCache[array.id] = instance
-      elements.push(instance.render.apply(instance, args))
+  if (typeof Callback === 'function') {
+    Callback = {
+      default: Callback
     }
   }
-  this.cache = newCache
-  return elements
+
+  this.mapping = false
+
+  this.lastCache = null // Instance cache
+  this.nextCache = {}
+  this.lastTypeCache = null // Type instance cache
+  this.nextTypeCache = {}
+}
+
+Nanomap.prototype.render = function (c, i, array) {
+  if (i === 0) {
+    // Setup a a fresh cache
+    if (this.mapping !== false) console.warn('Nanomap: new map started with unfinished map span') // TODO Remove this if it never happens
+    this.mapping = true
+    this.lastCache = this.nextCache
+    this.lastTypeCache = this.nextTypeCache
+    this.nextCache = {}
+    this.nextTypeCache = {}
+  }
+  var instance
+  var Callback = this.Callback
+  var args = isArray(c.arguments) ? c.arguments : [c.arguments]
+  if (this.lastCache[c.id] && this.lastTypeCache[c.id] === (c.type || 'default')) {
+    instance = this.nextCache[c.id] = this.lastCache[c.id]
+    this.nextTypeCache[c.id] = (c.type || 'default')
+  } else {
+    instance = this.nextCache[c.id] = new Callback[c.type || 'default'](c.opts)
+    this.nextTypeCache[c.id] = c.type || 'default'
+  }
+
+  if (i === (array.length - 1)) {
+    // Clean up old cache references
+    this.lastCache = null
+    this.lastTypeCache = null
+    this.mapping = false
+  }
+
+  return instance.render.apply(instance, args)
 }
 
 module.exports = Nanomap
