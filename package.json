@@ -9,18 +9,25 @@
     "test:node": "NODE_ENV=test node test/node.js | tap-format-spec",
     "test:browser": "browserify test/browser/index.js | tape-run | tap-format-spec",
     "test:lint": "standard *.js",
-    "start": "bankai start example"
+    "start": "budo example/index.js --live --open",
+    "inspect": "bankai inspect example.js"
   },
   "devDependencies": {
     "@tap-format/spec": "^0.2.0",
-    "bankai": "^8.1.1",
+    "bankai": "^9.0.0-1",
+    "bel": "^5.0.3",
+    "budo": "^10.0.4",
     "choo": "^6.0.0",
     "dependency-check": "^2.6.0",
+    "fy-shuffle": "^1.0.0",
+    "lodash.isequal": "^4.5.0",
     "nanocomponent": "^6.1.0",
     "npm-run-all": "^4.0.2",
     "standard": "^10.0.0",
     "tape": "^4.7.0",
-    "tape-run": "^3.0.0"
+    "tape-run": "^3.0.0",
+    "twitter-component": "^1.0.0",
+    "youtube-component": "^1.0.0"
   },
   "author": "Bret Comnes",
   "license": "MIT"

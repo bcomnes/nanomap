@@ -2,14 +2,18 @@ var assert = require('assert')
 var isArray = Array.isArray
 
 function Nanomap (opts, Callback) {
-  if (!(this instanceof Nanomap)) return new Nanomap()
+  if (!(this instanceof Nanomap)) return new Nanomap(opts, Callback)
   assert(arguments.length > 0 && arguments.length <= 2, 'Provide the correct number of arguments')
   if (arguments.length < 2) {
     Callback = opts
     opts = {}
   }
 
-  opts = Object.assign({}, opts)
+  opts = Object.assign({
+    gc: true
+  }, opts)
+
+  this.gc = opts.gc
 
   if (typeof Callback === 'function') {
     Callback = {
@@ -17,23 +21,37 @@ function Nanomap (opts, Callback) {
     }
   }
 
+  this.Callback = Callback
+
   this.mapping = false
 
-  this.lastCache = null // Instance cache
+  this.lastCache = {} // Instance cache
   this.nextCache = {}
-  this.lastTypeCache = null // Type instance cache
+  this.lastTypeCache = {} // Type instance cache
   this.nextTypeCache = {}
+
+  return this.render.bind(this)
 }
 
 Nanomap.prototype.render = function (c, i, array) {
+  assert(c.hasOwnProperty('id'),
+    'Nanomap: all map objects must have an \'id\' property')
+  if (c.hasOwnProperty('type')) {
+    assert(this.Callback.hasOwnProperty(c.type),
+    `Nanomap: type ${c.type} not defined for this mapper`)
+  } else {
+    assert(this.Callback.hasOwnProperty('default'),
+    `Nanomap: mappers processing map objects without a 'type' property must implement a 'default' Component`)
+  }
   if (i === 0) {
     // Setup a a fresh cache
-    if (this.mapping !== false) console.warn('Nanomap: new map started with unfinished map span') // TODO Remove this if it never happens
     this.mapping = true
     this.lastCache = this.nextCache
     this.lastTypeCache = this.nextTypeCache
-    this.nextCache = {}
-    this.nextTypeCache = {}
+    if (this.gc) {
+      this.nextCache = {}
+      this.nextTypeCache = {}
+    }
   }
   var instance
   var Callback = this.Callback
@@ -48,8 +66,10 @@ Nanomap.prototype.render = function (c, i, array) {
 
   if (i === (array.length - 1)) {
     // Clean up old cache references
-    this.lastCache = null
-    this.lastTypeCache = null
+    if (this.gc) {
+      this.lastCache = null
+      this.lastTypeCache = null
+    }
     this.mapping = false
   }
 
