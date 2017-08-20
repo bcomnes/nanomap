@@ -1,7 +1,7 @@
 {
   "name": "nanomap",
   "version": "1.0.0",
-  "description": "",
+  "description": "Functionally map data into DOM component instances",
   "main": "index.js",
   "scripts": {
     "test": "run-s test:*",
@@ -9,7 +9,8 @@
     "test:node": "NODE_ENV=test node test/node.js | tap-format-spec",
     "test:browser": "browserify test/browser/index.js | tape-run | tap-format-spec",
     "test:lint": "standard *.js",
-    "start": "budo example/index.js --live --open",
+    "start": "budo example/complex/index.js --live --open",
+    "start:simple": "budo example/simple/index.js --live --open",
     "inspect": "bankai inspect example.js"
   },
   "devDependencies": {
@@ -27,7 +28,7 @@
     "tape": "^4.7.0",
     "tape-run": "^3.0.0",
     "twitter-component": "^1.0.0",
-    "youtube-component": "^1.0.0"
+    "youtube-component": "^1.0.1"
   },
   "author": "Bret Comnes",
   "license": "MIT"
