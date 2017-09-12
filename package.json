@@ -9,19 +9,19 @@
   "devDependencies": {
     "@tap-format/spec": "^0.2.0",
     "bankai": "^9.0.0-1",
-    "bel": "^5.0.3",
+    "bel": "^5.1.1",
     "budo": "^10.0.4",
-    "choo": "^6.0.0",
+    "choo": "^6.0.1",
     "dependency-check": "^2.6.0",
     "fy-shuffle": "^1.0.0",
     "lodash.isequal": "^4.5.0",
-    "nanocomponent": "^6.1.0",
+    "nanocomponent": "^6.4.1",
     "npm-run-all": "^4.0.2",
     "standard": "^10.0.0",
     "tape": "^4.7.0",
     "tape-run": "^3.0.0",
-    "twitter-component": "^1.0.0",
-    "youtube-component": "^1.0.1"
+    "twitter-component": "^1.0.2",
+    "youtube-component": "^1.1.1"
   },
   "homepage": "https://github.com/bcomnes/nanoap#readme",
   "keywords": [
